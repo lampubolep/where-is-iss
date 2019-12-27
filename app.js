@@ -12,6 +12,7 @@ const tiles = L.tileLayer(tileUrl, { attribution });
 tiles.addTo(mymap);
 const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
 
+// let firstTime = true;
 
 async function getISS() {
   const response = await fetch(api_url);
@@ -19,11 +20,16 @@ async function getISS() {
   const { latitude, longitude } = data;
 
   markericon.setLatLng([latitude, longitude]);
-
-  document.getElementById('lat').textContent = latitude;
-  document.getElementById('lon').textContent = longitude;
+  // if (firstTime) {
+  mymap.setView([latitude, longitude], 5);
+  //   firstTime = false;
+  // }
+  document.getElementById('lat').textContent = latitude.toFixed(3);
+  document.getElementById('lon').textContent = longitude.toFixed(3);
 }
 
 getISS();
+
+setInterval(getISS, 5000);
 
 
